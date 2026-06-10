@@ -23,7 +23,7 @@ def handle_add_user(args, users, projects):
         console.print(f"[bold red]Validation Error: {e}[/bold red]")
 
 def handle_add_project(args, users, projects):
-    # Enforce relationship check (User must exist)
+    # Enforce relationship check 
     if not any(u.name.lower() == args.user.lower() for u in users):
         console.print(f"[bold red]Error: Assigned User '{args.user}' does not exist. Create them first.[/bold red]")
         return
