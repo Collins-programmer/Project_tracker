@@ -1,0 +1,49 @@
+{
+    "users": [
+        {
+            "name": "Alex",
+            "email": "alex@example.com"
+        },
+        {
+            "name": "Lynn",
+            "email": "lynn@sister.com"
+        },
+        {
+            "name": "Eric",
+            "email": "eric@example.com"
+        }
+    ],
+    "projects": [
+        {
+            "title": "clothes 254",
+            "description": "buidling a clothes trading platform",
+            "due_date": "2026-11-12",
+            "owner": "Eric",
+            "tasks": [
+                {
+                    "title": "work on navbar and home page",
+                    "assigned_to": "Lynn",
+                    "status": "Pending"
+                },
+                {
+                    "title": "work on databse",
+                    "assigned_to": "Eric",
+                    "status": "Pending"
+                }
+            ]
+        },
+        {
+            "title": "tracker system",
+            "description": "system for tracking devices",
+            "due_date": "2027-1-1",
+            "owner": "Lynn",
+            "tasks": [
+                {
+                    "title": "work on dashoard",
+                    "assigned_to": "Lynn",
+                    "status": "Pending"
+                }
+            ]
+        }
+    ]
+}
