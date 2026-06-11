@@ -39,4 +39,4 @@ Open your terminal (Command Prompt, PowerShell) and navigate into your project r
 * pipenv install rich
 
 ### Step 3: Running the project
-Use **python main.py <command> [options]** to run your commands
+Use **python main.py (command) [options]** to run your commands
