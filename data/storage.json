@@ -11,6 +11,10 @@
         {
             "name": "Eric",
             "email": "eric@example.com"
+        },
+        {
+            "name": "james",
+            "email": "james@moringa.com"
         }
     ],
     "projects": [
@@ -46,6 +50,19 @@
                 {
                     "title": "work on dashoard",
                     "assigned_to": "Lynn",
+                    "status": "Pending"
+                }
+            ]
+        },
+        {
+            "title": "show industry",
+            "description": "industry for showing movies",
+            "due_date": "2026-11-4",
+            "owner": "james",
+            "tasks": [
+                {
+                    "title": "work on homepage",
+                    "assigned_to": "james",
                     "status": "Pending"
                 }
             ]
