@@ -11,7 +11,7 @@ This application is built on strict Object-Oriented Programming principles, ensu
 ### 1. The Data Objects & Validation Guards
 * **Inheritance Layer (`Person` → `User`):** The application utilizes structural inheritance. It sets up a base data class (`Person`) defining foundational characteristics which are automatically passed down and expanded by the operational system identity (`User`).
 * **Encapsulation via Properties & Setters:** The internal attributes are heavily protected. Rather than writing raw values directly to code parameters, information passes through validation checkpoints. For instance, trying to assign a blank name or registering an email format missing an `@` symbol will immediately be blocked by the system, raising a managed error.
-* **Bounded Work States:** Tasks cannot have random status descriptions. They are constrained strictly to `Pending`, `In Progress`, or `Completed` statuses via internal code rules.
+* **Bounded Work States:** Tasks cannot have random status descriptions. They are constrained strictly to `Pending` or `Completed` statuses via internal code rules.
 
 ### 2. Relationship Integrity Constraints
 The core engine actively manages data dependencies to prevent broken structural nodes:
