@@ -36,6 +36,18 @@ def handle_add_project(args, users, projects):
     save_data(users, projects)
     console.print(f"[bold green]Successfully created project: {new_project}[/bold green]")
 
+def handle_delete_project(args, users, projects):
+    """Looks up a project by its title and removes it from persistent storage."""
+    project_to_remove = next((p for p in projects if p.title.lower() == args.title.lower()), None)
+    
+    if not project_to_remove:
+        console.print(f"[bold red]Error: Project Title '{args.title}' could not be found in the database.[/bold red]")
+        return
+
+    projects.remove(project_to_remove)
+    save_data(users, projects)
+    console.print(f"[bold green]Successfully deleted project: '{project_to_remove.title}' and all its associated tasks.[/bold green]")
+
 def handle_add_task(args, users, projects):
     project = next((p for p in projects if p.title.lower() == args.project.lower()), None)
     if not project:
@@ -62,23 +74,16 @@ def handle_complete_task(args, users, projects):
     save_data(users, projects)
     console.print(f"[bold green]Task '{task.title}' updated to Completed![/bold green]")
 
-def handle_list_projects(args, users, projects):
-    table = Table(title="Project Management Overview", show_lines=True)
+def render_projects_table(title, projects_list):
+    """Utility helper to render a list of projects into a rich UI table."""
+    table = Table(title=title, show_lines=True)
     table.add_column("Project Title", style="cyan", no_wrap=True)
     table.add_column("Owner", style="magenta")
     table.add_column("Due Date", style="yellow")
+    table.add_column("Description", style="white")
     table.add_column("Tasks Status Breakdown (Title [Status] -> Assignee)", style="green")
 
-    # Filter projects based on user flag if supplied
-    filtered_projects = projects
-    if args.user:
-        filtered_projects = [p for p in projects if p.owner.lower() == args.user.lower()]
-
-    if not filtered_projects:
-        console.print("[yellow]No tracked projects found matching target criteria.[/yellow]")
-        return
-
-    for proj in filtered_projects:
+    for proj in projects_list:
         task_str = ""
         if not proj.tasks:
             task_str = "[dim italic]No tasks assigned[/dim italic]"
@@ -86,9 +91,37 @@ def handle_list_projects(args, users, projects):
             status_color = "green" if t.status == "Completed" else "orange3"
             task_str += f"• {t.title} [[{status_color}]{t.status}[/{status_color}]] → {t.assigned_to}\n"
         
-        table.add_row(proj.title, proj.owner, proj.due_date, task_str.strip())
+        table.add_row(proj.title, proj.owner, proj.due_date, proj.description, task_str.strip())
 
     console.print(table)
+
+def handle_list_projects(args, users, projects):
+    filtered_projects = projects
+    title = "Project Management Overview"
+    
+    if args.user:
+        filtered_projects = [p for p in projects if p.owner.lower() == args.user.lower()]
+        title = f"Projects Managed by {args.user}"
+
+    if not filtered_projects:
+        console.print("[yellow]No tracked projects found matching target criteria.[/yellow]")
+        return
+
+    render_projects_table(title, filtered_projects)
+
+def handle_search_projects(args, users, projects):
+    """Searches for keyword matches across project titles, descriptions, and owners."""
+    query = args.query.lower()
+    matched_projects = [
+        p for p in projects
+        if query in p.title.lower() or query in p.description.lower() or query in p.owner.lower()
+    ]
+
+    if not matched_projects:
+        console.print(f"[yellow]No projects found matching the search query: '{args.query}'[/yellow]")
+        return
+
+    render_projects_table(f"Search Results for: '{args.query}'", matched_projects)
 
 
 def main():
@@ -109,6 +142,10 @@ def main():
     parser_proj.add_argument("--desc", default="No description provided", help="Short overview write up context context")
     parser_proj.add_argument("--due", default="N/A", help="Target Final Project Execution Deadline")
 
+    # Delete Project Command
+    parser_delete = subparsers.add_parser("delete-project", help="Permanently drop a project container and its associated subtasks")
+    parser_delete.add_argument("--title", required=True, help="The Title of the target project to drop")
+
     # Add Task Command
     parser_task = subparsers.add_parser("add-task", help="Inject contextual operational milestone into project pipeline")
     parser_task.add_argument("--project", required=True, help="Target project collection node title")
@@ -124,6 +161,10 @@ def main():
     parser_list = subparsers.add_parser("list-projects", help="Output runtime project table metrics summaries visualizer matrix")
     parser_list.add_argument("--user", help="Optional parameter query string used to isolate tracking metrics data vectors by specific user node")
 
+    # Search Projects Command
+    parser_search = subparsers.add_parser("search-projects", help="Search projects by keyword (title, description, or owner)")
+    parser_search.add_argument("--query", required=True, help="Search string keyword query")
+
     args = parser.parse_args()
 
     # Route execution logic
@@ -131,12 +172,16 @@ def main():
         handle_add_user(args, users, projects)
     elif args.command == "add-project":
         handle_add_project(args, users, projects)
+    elif args.command == "delete-project":
+        handle_delete_project(args, users, projects)
     elif args.command == "add-task":
         handle_add_task(args, users, projects)
     elif args.command == "complete-task":
         handle_complete_task(args, users, projects)
     elif args.command == "list-projects":
         handle_list_projects(args, users, projects)
+    elif args.command == "search-projects":
+        handle_search_projects(args, users, projects)
     else:
         parser.print_help()
 

@@ -11,6 +11,14 @@
         {
             "name": "Eric",
             "email": "eric@example.com"
+        },
+        {
+            "name": "james",
+            "email": "james@moringa.com"
+        },
+        {
+            "name": "coll0",
+            "email": "collins@example.com"
         }
     ],
     "projects": [
@@ -46,6 +54,19 @@
                 {
                     "title": "work on dashoard",
                     "assigned_to": "Lynn",
+                    "status": "Pending"
+                }
+            ]
+        },
+        {
+            "title": "movie showcase",
+            "description": "app for showcasing movies",
+            "due_date": "2027-2-2",
+            "owner": "coll0",
+            "tasks": [
+                {
+                    "title": "work on moviecard",
+                    "assigned_to": "coll0",
                     "status": "Pending"
                 }
             ]
