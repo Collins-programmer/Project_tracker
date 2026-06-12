@@ -36,6 +36,18 @@ def handle_add_project(args, users, projects):
     save_data(users, projects)
     console.print(f"[bold green]Successfully created project: {new_project}[/bold green]")
 
+def handle_delete_project(args, users, projects):
+    """Looks up a project by its title and removes it from persistent storage."""
+    project_to_remove = next((p for p in projects if p.title.lower() == args.title.lower()), None)
+    
+    if not project_to_remove:
+        console.print(f"[bold red]Error: Project Title '{args.title}' could not be found in the database.[/bold red]")
+        return
+
+    projects.remove(project_to_remove)
+    save_data(users, projects)
+    console.print(f"[bold green]Successfully deleted project: '{project_to_remove.title}' and all its associated tasks.[/bold green]")
+
 def handle_add_task(args, users, projects):
     project = next((p for p in projects if p.title.lower() == args.project.lower()), None)
     if not project:
@@ -84,7 +96,6 @@ def render_projects_table(title, projects_list):
     console.print(table)
 
 def handle_list_projects(args, users, projects):
-    # Filter projects based on user flag if supplied
     filtered_projects = projects
     title = "Project Management Overview"
     
@@ -131,6 +142,10 @@ def main():
     parser_proj.add_argument("--desc", default="No description provided", help="Short overview write up context context")
     parser_proj.add_argument("--due", default="N/A", help="Target Final Project Execution Deadline")
 
+    # Delete Project Command
+    parser_delete = subparsers.add_parser("delete-project", help="Permanently drop a project container and its associated subtasks")
+    parser_delete.add_argument("--title", required=True, help="The Title of the target project to drop")
+
     # Add Task Command
     parser_task = subparsers.add_parser("add-task", help="Inject contextual operational milestone into project pipeline")
     parser_task.add_argument("--project", required=True, help="Target project collection node title")
@@ -157,6 +172,8 @@ def main():
         handle_add_user(args, users, projects)
     elif args.command == "add-project":
         handle_add_project(args, users, projects)
+    elif args.command == "delete-project":
+        handle_delete_project(args, users, projects)
     elif args.command == "add-task":
         handle_add_task(args, users, projects)
     elif args.command == "complete-task":

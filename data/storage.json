@@ -15,6 +15,10 @@
         {
             "name": "james",
             "email": "james@moringa.com"
+        },
+        {
+            "name": "coll0",
+            "email": "collins@example.com"
         }
     ],
     "projects": [
@@ -55,14 +59,14 @@
             ]
         },
         {
-            "title": "show industry",
-            "description": "industry for showing movies",
-            "due_date": "2026-11-4",
-            "owner": "james",
+            "title": "movie showcase",
+            "description": "app for showcasing movies",
+            "due_date": "2027-2-2",
+            "owner": "coll0",
             "tasks": [
                 {
-                    "title": "work on homepage",
-                    "assigned_to": "james",
+                    "title": "work on moviecard",
+                    "assigned_to": "coll0",
                     "status": "Pending"
                 }
             ]
