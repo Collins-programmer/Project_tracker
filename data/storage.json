@@ -28,7 +28,7 @@
                 {
                     "title": "work on databse",
                     "assigned_to": "Eric",
-                    "status": "Pending"
+                    "status": "Completed"
                 }
             ]
         },
@@ -38,6 +38,11 @@
             "due_date": "2027-1-1",
             "owner": "Lynn",
             "tasks": [
+                {
+                    "title": "work on dashoard",
+                    "assigned_to": "Lynn",
+                    "status": "Pending"
+                },
                 {
                     "title": "work on dashoard",
                     "assigned_to": "Lynn",
